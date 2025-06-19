@@ -1,0 +1,118 @@
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+
+  .container {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .list-group-item {
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid !important;
+  }
+
+  .list-group-item-success {
+    background-color: #f8f9fa !important;
+    border-color: #28a745 !important;
+  }
+
+  .list-group-item-warning {
+    background-color: #fff3cd !important;
+    border-color: #ffc107 !important;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+}
+
+/* Celebration animations */
+.celebration-container {
+  position: relative;
+  min-height: 400px;
+  overflow: hidden;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  top: -20px;
+  animation: confetti-fall 5s linear infinite;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(600px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.loading-message {
+  animation: fade-in-out 2s infinite;
+}
+
+@keyframes fade-in-out {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* General styling improvements */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+a {
+  transition: color 0.3s ease;
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+/* Question animation */
+.btn-outline-primary {
+  transition: all 0.2s ease;
+}
+
+.btn-outline-primary:hover {
+  transform: translateX(5px);
+}
+
+/* Progress bar animation */
+.progress-bar {
+  transition: width 0.5s ease;
+}
+
+/* Badge styling */
+.badge {
+  font-weight: normal;
+  padding: 0.4em 0.6em;
+} 

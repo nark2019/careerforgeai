@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - CareerForge AI</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      text-align: center;
+    }
+    
+    .header {
+      background-color: #007bff;
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .offline-icon {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      color: #6c757d;
+    }
+    
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+    
+    p {
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      color: #6c757d;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      margin: 0.5rem;
+    }
+    
+    .btn:hover {
+      background-color: #0069d9;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #007bff;
+      color: #007bff;
+    }
+    
+    .btn-outline:hover {
+      background-color: #f1f8ff;
+    }
+    
+    .footer {
+      padding: 1rem;
+      background-color: #f1f1f1;
+      color: #6c757d;
+      font-size: 0.875rem;
+    }
+    
+    .cached-content {
+      margin-top: 2rem;
+      width: 100%;
+      border-top: 1px solid #dee2e6;
+      padding-top: 2rem;
+    }
+    
+    .cached-content h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    .cached-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+    
+    .cached-list li {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+    }
+    
+    .cached-list li:before {
+      content: "✓";
+      color: #28a745;
+      margin-right: 0.75rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>CareerForge AI</h1>
+  </div>
+  
+  <div class="content">
+    <div class="offline-icon">📶</div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Don't worry - CareerForge AI works offline, and you can still access previously loaded content.</p>
+    
+    <div>
+      <a href="/" class="btn">Try Again</a>
+      <button onclick="showCachedContent()" class="btn btn-outline">View Available Offline Content</button>
+    </div>
+    
+    <div id="cached-content" class="cached-content" style="display: none;">
+      <h2>Available Offline</h2>
+      <ul class="cached-list" id="cached-list">
+        <!-- This will be populated by JavaScript -->
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>© 2023 CareerForge AI. All rights reserved.</p>
+  </div>
+  
+  <script>
+    // Function to show cached content
+    function showCachedContent() {
+      const cachedContent = document.getElementById('cached-content');
+      cachedContent.style.display = 'block';
+      
+      // Check if caches API is available
+      if ('caches' in window) {
+        const cachedList = document.getElementById('cached-list');
+        cachedList.innerHTML = '<li>Loading cached content...</li>';
+        
+        caches.open('careerforge-ai-v1').then(cache => {
+          cache.keys().then(requests => {
+            if (requests.length === 0) {
+              cachedList.innerHTML = '<li>No cached content available</li>';
+              return;
+            }
+            
+            cachedList.innerHTML = '';
+            const paths = new Set();
+            
+            requests.forEach(request => {
+              const url = new URL(request.url);
+              const path = url.pathname;
+              
+              // Skip service worker and similar files
+              if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.json') || 
+                  path.endsWith('.ico') || path.endsWith('.png')) {
+                return;
+              }
+              
+              // Skip duplicates
+              if (paths.has(path)) return;
+              paths.add(path);
+              
+              // Create readable name
+              let name = path === '/' ? 'Home Page' : path.split('/').pop();
+              name = name || path.split('/').filter(Boolean).pop() || 'Home';
+              name = name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+              
+              if (name.endsWith('.html')) {
+                name = name.substring(0, name.length - 5);
+              }
+              
+              const li = document.createElement('li');
+              li.innerHTML = `<a href="${path}">${name}</a>`;
+              cachedList.appendChild(li);
+            });
+            
+            if (cachedList.children.length === 0) {
+              cachedList.innerHTML = '<li>No cached pages available</li>';
+            }
+          });
+        });
+      } else {
+        const cachedList = document.getElementById('cached-list');
+        cachedList.innerHTML = '<li>Cache API not supported in your browser</li>';
+      }
+    }
+    
+    // Check if we're back online
+    window.addEventListener('online', () => {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html> 

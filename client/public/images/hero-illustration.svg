@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <!-- Career Growth Path -->
+  <path d="M100,500 Q400,100 700,500" stroke="#4CAF50" stroke-width="4" fill="none"/>
+  
+  <!-- Career Milestones -->
+  <circle cx="100" cy="500" r="20" fill="#1976D2"/>
+  <circle cx="300" cy="300" r="20" fill="#1976D2"/>
+  <circle cx="500" cy="300" r="20" fill="#1976D2"/>
+  <circle cx="700" cy="500" r="20" fill="#1976D2"/>
+  
+  <!-- AI Elements -->
+  <g transform="translate(350,250)">
+    <rect x="-40" y="-40" width="80" height="80" fill="#3F51B5" rx="10"/>
+    <circle cx="0" cy="0" r="25" fill="#FFF"/>
+    <path d="M-15,0 L15,0 M0,-15 L0,15" stroke="#3F51B5" stroke-width="4"/>
+  </g>
+  
+  <!-- Career Icons -->
+  <g transform="translate(150,450)">
+    <circle cx="0" cy="0" r="30" fill="#E91E63"/>
+    <path d="M-15,-15 L15,15 M-15,15 L15,-15" stroke="#FFF" stroke-width="4"/>
+  </g>
+  
+  <g transform="translate(600,450)">
+    <circle cx="0" cy="0" r="30" fill="#FF9800"/>
+    <path d="M0,-15 L0,15 M-15,0 L15,0" stroke="#FFF" stroke-width="4"/>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <circle cx="200" cy="200" r="10" fill="#4CAF50"/>
+  <circle cx="600" cy="200" r="10" fill="#4CAF50"/>
+  <circle cx="400" cy="400" r="10" fill="#4CAF50"/>
+</svg> 
